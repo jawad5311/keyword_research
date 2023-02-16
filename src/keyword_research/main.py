@@ -32,19 +32,20 @@ class KeywordResearch():
         search_box = self.driver.find_element(By.CLASS_NAME, "gLFyf")
         search_box.send_keys('test')
 
-    def do_keyword_research_on_google(self):
+    def do_keyword_research_on_google(self, keyword):
         self.driver.get("https://www.google.com")
 
         # google search box
         search_box = self.driver.find_element(By.CLASS_NAME, "gLFyf")
-        search_box.send_keys('test')
+        search_box.send_keys(f'{keyword} ')
 
-        suggested_keywords = self.driver.find_element(By.XPATH, "//div[@class='OBMEnb']/ul/li")
-        print(suggested_keywords)
+        time.sleep(2)
 
-        for word in suggested_keywords:
-            print(word)
+        suggested_keywords = self.driver.find_element(By.XPATH, "//div[@class='OBMEnb']/ul")
+        print(len(suggested_keywords.find_elements(By.TAG_NAME, 'li')))
 
+        for word in suggested_keywords.find_elements(By.TAG_NAME, 'li'):
+            print(word.text)
 
 
 
