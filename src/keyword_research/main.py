@@ -10,6 +10,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Builtin Modules
 import time
+import string
 
 
 class KeywordResearch():
@@ -39,14 +40,29 @@ class KeywordResearch():
         search_box = self.driver.find_element(By.CLASS_NAME, "gLFyf")
         search_box.send_keys(f'{keyword} ')
 
-        time.sleep(2)
+        time.sleep(1)
 
-        suggested_keywords = self.driver.find_element(By.XPATH, "//div[@class='OBMEnb']/ul")
-        print(len(suggested_keywords.find_elements(By.TAG_NAME, 'li')))
+        # suggested_keywords = self.driver.find_element(By.XPATH, "//div[@class='OBMEnb']/ul")
+        # print(len(suggested_keywords.find_elements(By.TAG_NAME, 'li')))
 
-        for word in suggested_keywords.find_elements(By.TAG_NAME, 'li'):
-            print(word.text)
+        # for word in suggested_keywords.find_elements(By.TAG_NAME, 'li'):
+        #     print(word.text)
 
+        all_keywords = []
+
+        for alphabet in string.ascii_lowercase[:3]:
+            search_box.clear()
+            search_box.send_keys(f'{keyword} {alphabet}')
+            time.sleep(1)
+
+            keywords_based_on_alphabets = self.driver.find_elements(By.XPATH, "//div[@class='OBMEnb']/ul/li")
+            # print(keywords_based_on_alphabets.text)
+
+            for word in keywords_based_on_alphabets:
+                all_keywords.append(word.text)
+
+        print(all_keywords)
+        print(len(all_keywords))
 
 
 
@@ -57,4 +73,4 @@ if __name__ == "__main__":
     driver = KeywordResearch()
     # driver.test_webdriver()
 
-    driver.do_keyword_research_on_google()
+    driver.do_keyword_research_on_google('test')
