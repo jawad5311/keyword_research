@@ -50,20 +50,23 @@ class KeywordResearch():
 
         all_keywords = []
 
-        for alphabet in string.ascii_lowercase[:3]:
-            search_box.clear()
-            search_box.send_keys(f'{keyword} {alphabet}')
-            time.sleep(1)
+        with open(f'../../data/{keyword.replace(" ", "_")}_GOOGLE.txt', 'w') as f:
+            for alphabet in string.ascii_lowercase:
+                search_box.clear()
+                search_box.send_keys(f'{keyword} ')
+                search_box.send_keys(f'{alphabet}')
+                time.sleep(2)
 
-            keywords_based_on_alphabets = self.driver.find_elements(By.XPATH, "//div[@class='OBMEnb']/ul/li")
-            # print(keywords_based_on_alphabets.text)
+                keywords_based_on_alphabets = self.driver.find_elements(By.XPATH, "//div[@class='OBMEnb']/ul/li")
+                # print(keywords_based_on_alphabets.text)
 
-            for word in keywords_based_on_alphabets:
-                all_keywords.append(word.text)
+                for word in keywords_based_on_alphabets:
+                    all_keywords.append(word.text)
+                    f.write(f'{word.text}\n')
 
-        print(all_keywords)
-        print(len(all_keywords))
 
+            print(all_keywords)
+            print(len(all_keywords))
 
 
 
@@ -73,4 +76,4 @@ if __name__ == "__main__":
     driver = KeywordResearch()
     # driver.test_webdriver()
 
-    driver.do_keyword_research_on_google('test')
+    driver.do_keyword_research_on_google('how to improve kidney function')
